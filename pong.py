@@ -1,5 +1,6 @@
 # Simple Pong game
 import turtle
+import random
 
 
 # Window creation
@@ -34,6 +35,10 @@ ball.shape("circle")  # shape of the object
 ball.color("white")  # color of the object
 ball.penup()  # stops the object from drawing lines
 ball.goto(0, 0)  # position of the object
+ball.dx = 0.3  # ball movement speed in x direction
+ball.dy = 0.3  # ball movement speed in y direction
+# ball.dx = random.randrange(-0.5, 0.5)  # ball movement speed in x direction
+# ball.dy = random.randrange(-0.5, 0.5)  # ball movement speed in y direction
 
 
 # game functions
@@ -61,3 +66,22 @@ win.onkeypress(lambda: paddle_down(paddle_B), "Down")  # moves paddle B down
 # Main loop
 while True:
     win.update()  # updates the window
+
+    # Ball movement
+    ball.setx(ball.xcor() + ball.dx)  # moves the ball in x direction
+    ball.sety(ball.ycor() + ball.dy)  # moves the ball in y direction
+
+    # Border checking for ball
+    if ball.ycor() > 290:
+        ball.sety(290)
+        ball.dy *= -1
+    if ball.ycor() < -290:
+        ball.sety(-290)
+        ball.dy *= -1
+    if ball.xcor() > 390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+    if ball.xcor() < -390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+
