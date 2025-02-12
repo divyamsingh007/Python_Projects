@@ -35,10 +35,23 @@ ball.shape("circle")  # shape of the object
 ball.color("white")  # color of the object
 ball.penup()  # stops the object from drawing lines
 ball.goto(0, 0)  # position of the object
-ball.dx = 0.3  # ball movement speed in x direction
-ball.dy = 0.3  # ball movement speed in y direction
+ball.dx = 1  # ball movement speed in x direction
+ball.dy = 1  # ball movement speed in y direction
 # ball.dx = random.randrange(-0.5, 0.5)  # ball movement speed in x direction
 # ball.dy = random.randrange(-0.5, 0.5)  # ball movement speed in y direction
+
+# Score
+score_A = 0
+score_B = 0
+pen = turtle.Turtle()  # creates a turtle object
+pen.speed(0)  # speed of the animation
+pen.color("white")  # color of the object
+pen.penup()  # stops the object from drawing lines
+pen.hideturtle()  # hides the object
+pen.goto(0, 260)  # position of the object
+pen.write(
+    "Player A: 0  Player B: 0", align="center", font=("Courier", 24, "normal")
+)  # writes the score
 
 
 # game functions
@@ -81,7 +94,28 @@ while True:
     if ball.xcor() > 390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_A += 1
     if ball.xcor() < -390:
         ball.goto(0, 0)
         ball.dx *= -1
+        score_B += 1
 
+    # Update the score
+    pen.clear()  # clears the previous score
+    pen.write(
+        "Player A: {}  Player B: {}".format(score_A, score_B),
+        align="center",
+        font=("Courier", 24, "normal"),
+    )  # writes the score
+
+    # Paddle and ball collision
+    if (ball.xcor() > 340 and ball.xcor() < 350) and (
+        ball.ycor() < paddle_B.ycor() + 50 and ball.ycor() > paddle_B.ycor() - 50
+    ):
+        ball.setx(340)
+        ball.dx *= -1
+    if (ball.xcor() < -340 and ball.xcor() > -350) and (
+        ball.ycor() < paddle_A.ycor() + 50 and ball.ycor() > paddle_A.ycor() - 50
+    ):
+        ball.setx(-340)
+        ball.dx *= -1
